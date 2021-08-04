@@ -1,0 +1,23 @@
+<ng-container *ngIf="faza == 0">
+  <app-registration (onLogin)="setLogin($event)"></app-registration>
+</ng-container>
+<ng-container *ngIf="faza == 1">
+  <app-authorization (onLogin)="setLogin($event)"></app-authorization>
+</ng-container>
+<ng-container *ngIf="faza == 2">
+  <app-create-vote (onStartFazaOne)="onStartFazaOne($event)"></app-create-vote>
+</ng-container>
+<ng-container *ngIf="faza == 3">
+  <app-vote-one></app-vote-one>
+</ng-container>
+<ng-container *ngIf="faza == 4">
+  <app-wait-one></app-wait-one>
+</ng-container>
+<ng-container *ngIf="faza == 5">
+  <app-vote-two></app-vote-two>
+</ng-container>
+<ng-container *ngIf="faza == 6">
+  <app-wait-two></app-wait-two>
+</ng-container>
+
+

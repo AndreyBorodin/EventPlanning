@@ -1,0 +1,35 @@
+<div style="width: 100%; background: #ededed; text-align: center">
+  <span>
+                            <span style="text-align: center">Регистрация</span>
+                            <i class="fas fa-angle-up" style="margin-left: 5px;"></i>
+  </span>
+  <span>
+                            <span class="form-group" style="width: 90%;">
+                                <input type = "text" [(ngModel)]="user.userName"
+                                       name="UserName" #UserName="ngModel" class="form-control"
+                                       placeholder="Имя"
+                                       style="width: 90%; margin-left: 5%" required/>
+                            </span>
+
+                            <span class="form-group" style="width: 90%;">
+                                <input type = "text" [(ngModel)]="user.login"
+                                       name="Login" #Login="ngModel" class="form-control"
+                                       placeholder="Логин"
+                                       style="width: 90%; margin-left: 5%" required/>
+                            </span>
+                            <span class="form-group" style="width: 90%;">
+                                <input type = "text" [(ngModel)]="user.password"
+                                       name="Password" #Password="ngModel" class="form-control"
+                                       placeholder="Придумайте пароль"
+                                       style="width: 90%; margin-left: 5%" required/>
+                            </span>
+
+                            <span class="form-group" style="width: 90%;">
+                              <button type = "button" class = "btn btn-info" (click) = "onRegistr()">Зарегистрироваться</button>
+                            </span>
+                            <span class="form-group" style="width: 90%;">
+                              <button type = "button" class = "btn btn-info" (click) = "onAutor()">Войти</button>
+                            </span>
+
+  </span>
+</div>

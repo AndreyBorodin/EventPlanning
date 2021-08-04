@@ -1,0 +1,27 @@
+<div style="width: 30%; background: #ededed; text-align: left">
+  <span>
+                            <span style="text-align: center">Авторизация</span>
+                            <i class="fas fa-angle-up" style="margin-left: 5px;"></i>
+  </span>
+  <span>
+                            <span class="form-group" style="width: 90%;">
+                                <input type = "text" [(ngModel)]="user.login"
+                                       name="Login" #Login="ngModel" class="form-control"
+                                       placeholder="Логин"
+                                       style="width: 90%; margin-left: 5%" />
+                            </span>
+                            <span class="form-group" style="width: 90%;">
+                                <input type = "text" [(ngModel)]="user.password"
+                                       name="Password" #Password="ngModel" class="form-control"
+                                       placeholder="Пароль"
+                                       style="width: 90%; margin-left: 5%" />
+                            </span>
+                            <span class="form-group" style="width: 90%;">
+                              <button type = "button" class = "btn btn-info" (click) = "onEnter()">Войти</button>
+                            </span>
+                            <span class="form-group" style="width: 90%;">
+                              <button type = "button" class = "btn btn-info" (click) = "onReg()">Регистрироваться</button>
+                            </span>
+
+  </span>
+</div>

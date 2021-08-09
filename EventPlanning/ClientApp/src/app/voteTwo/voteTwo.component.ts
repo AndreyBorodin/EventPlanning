@@ -8,10 +8,9 @@ import {EventPlan, Message, SecondVote} from '../../models/model.dto';
   templateUrl: './voteTwo.component.html'
 })
 export class VoteTwoComponent implements OnInit {
-  timer: number;
-  minutes: number;
-  seconds: number;
-  planLider: EventPlan;
+  minutes: number = 0;
+  seconds: number = 0;
+  planLeader: EventPlan;
   listParty: string;
 
   constructor(
@@ -22,34 +21,12 @@ export class VoteTwoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTimeTwo();
-    this.getPlanLider();
+    this.getPlanLeader();
     this.getListParty();
   }
-  getTimeTwo(){
-    this.service.getTimeTwo().subscribe(data => {
-      this.timer = data;
-      this.doTimer();
-    });
-  }
-  async doTimer() {
-    this.timer = this.timer * 60;
-    while(this.timer > 0) {
-      this.minutes = Math.trunc(this.timer / 60);
-      this.seconds = this.timer  - this.minutes * 60;
-      this.service.timer = this.timer;
-      this.timer--;
-      await this.delay(1000);
-    }
-  }
-  delay(delay: number) {
-    return new Promise(r => {
-      setTimeout(r, delay);
-    });
-  }
-  getPlanLider(){
-    this.service.getPlanLider().subscribe(data => {
-      this.planLider = data;
+  getPlanLeader(){
+    this.service.getPlanLeader().subscribe(data => {
+      this.planLeader = data;
     });
   }
   getListParty(){
@@ -60,23 +37,17 @@ export class VoteTwoComponent implements OnInit {
 
   yesAnswer() {
     const secondVote: SecondVote = new SecondVote();
-    secondVote.idUserName = this.service.user.id;
+    secondVote.idUser = this.service.user.id;
     secondVote.consent = true;
-    this.service.givetVote2(secondVote).subscribe(data => {
-      if (data) {
-        this.hubService.sendMessage(new Message());
-      }
+    this.service.addVoteTwo(secondVote).subscribe(data => {
     });
   }
 
   noAnswer() {
     const secondVote: SecondVote = new SecondVote();
-    secondVote.idUserName = this.service.user.id;
+    secondVote.idUser = this.service.user.id;
     secondVote.consent = false;
-    this.service.givetVote2(secondVote).subscribe(data => {
-      if (data) {
-        this.hubService.sendMessage(new Message());
-      }
+    this.service.addVoteTwo(secondVote).subscribe(data => {
     });
   }
 }

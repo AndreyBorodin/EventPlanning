@@ -1,8 +1,8 @@
 export class Message {
-  clientuniqueid: string;
   type: string;
-  message: string;
-  date: Date;
+  timerOne: number;
+  timerTwo: number;
+  currently: number;
 }
 export class User {
   id: string;
@@ -26,7 +26,7 @@ export class EventPlan {
 }
 export class FirstVote {
   id: string;
-  idUserName: string;
+  idUser: string;
   idEventsPlan: string;
   name: string;
   consent: boolean;
@@ -37,12 +37,7 @@ export class FirstVote {
 export class SecondVote {
   id: string;
   consent: boolean;
-  idUserName: string;
-}
-export class StartVote {
-  eventPlans: EventPlan[];
-  timeFazaOne: number;
-  timeFazaTwo: number;
+  idUser: string;
 }
 
 

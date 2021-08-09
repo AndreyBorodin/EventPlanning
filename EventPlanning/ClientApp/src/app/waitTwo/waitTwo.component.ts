@@ -8,10 +8,9 @@ import {EventPlan, FirstVote, Message} from '../../models/model.dto';
   templateUrl: './waitTwo.component.html'
 })
 export class WaitTwoComponent implements OnInit {
-  timer: number;
   minutes: number;
   seconds: number;
-  planLider: EventPlan;
+  planLeader: EventPlan;
   listParty: string;
 
   constructor(
@@ -22,28 +21,12 @@ export class WaitTwoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.doTimer();
-    this.getPlanLider();
+    this.getPlanLeader();
     this.getListParty();
   }
-  async doTimer() {
-    this.timer = this.service.timer;
-    while(this.timer > 0) {
-      this.minutes = Math.trunc(this.timer / 60);
-      this.seconds = this.timer  - this.minutes * 60;
-      this.service.timer = this.timer;
-      this.timer--;
-      await this.delay(1000);
-    }
-  }
-  delay(delay: number) {
-    return new Promise(r => {
-      setTimeout(r, delay);
-    });
-  }
-  getPlanLider(){
-    this.service.getPlanLider().subscribe(data => {
-      this.planLider = data;
+  getPlanLeader(){
+    this.service.getPlanLeader().subscribe(data => {
+      this.planLeader = data;
     });
   }
   getListParty(){

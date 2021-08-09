@@ -1,4 +1,5 @@
-<span style="text-align: center">Голосоавние закончится через {{minutes}};{{seconds}}</span>
+<span style="text-align: center">Голосоавние закончится через {{minutes}}:{{seconds}}</span><br>
+<span style="text-align: center">Проголосовало {{countVoted}} человек</span>
 <div style="width: 100%; background: #ededed; text-align: center">
   <div class="container-xxl">
     <table class="table table-bordered align-middle">
@@ -12,11 +13,11 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let evP of firstVotes">
-        <td><input class="form-control input-lg"  type="text" name="Name" #Name="ngModel" [(ngModel)]="evP.name" required></td>
-        <td><input  type="checkbox" name="Consent" #Consent="ngModel" [(ngModel)]="evP.consent" required></td>
+      <tr *ngFor="let item of firstVotes">
+        <td><input class="form-control input-lg"  type="text" name="Name" #Name="ngModel" [(ngModel)]="item.name" required></td>
+        <td><input  type="checkbox" name="Consent" #Consent="ngModel" [(ngModel)]="item.consent" required></td>
         <th>
-          <ng-container *ngIf = "firstVotes.indexOf(evP)+1 == firstVotes.length">
+          <ng-container *ngIf = "firstVotes.indexOf(item)+1 == firstVotes.length">
             <button type = "button" class="btn btn-success" (click)="addPlan()">Добавить</button>
           </ng-container>
         </th>

@@ -8,9 +8,9 @@ import {FirstVote, Message} from '../../models/model.dto';
   templateUrl: './voteOne.component.html'
 })
 export class VoteOneComponent implements OnInit {
-  timer: number;
-  minutes: number;
-  seconds: number;
+  minutes: number = 0;
+  seconds: number = 0;
+  countVoted: number = 0;
   firstVotes: FirstVote[];
 
   constructor(
@@ -22,32 +22,16 @@ export class VoteOneComponent implements OnInit {
 
   ngOnInit(): void {
     this.getFirstVote();
-    this.getTimeOne();
+    this.getCountVoted();
   }
   getFirstVote(){
     this.service.getFirstVote().subscribe(data => {
       this.firstVotes = data;
     });
   }
-  getTimeOne(){
-    this.service.getTimeOne().subscribe(data => {
-      this.timer = data;
-      this.doTimer();
-    });
-  }
-  async doTimer() {
-    this.timer = this.timer * 60;
-    while(this.timer > 0) {
-      this.minutes = Math.trunc(this.timer / 60);
-      this.seconds = this.timer  - this.minutes * 60;
-      this.service.timer = this.timer;
-      this.timer--;
-      await this.delay(1000);
-    }
-  }
-  delay(delay: number) {
-    return new Promise(r => {
-      setTimeout(r, delay);
+  getCountVoted(){
+    this.service.getCountVoted().subscribe(data => {
+      this.countVoted = data;
     });
   }
 
@@ -55,14 +39,11 @@ export class VoteOneComponent implements OnInit {
     let firstVotesNew: FirstVote[] = [];
     for (let item of this.firstVotes ){
       if(item.consent || item.idEventsPlan == null || item.idEventsPlan == undefined){
-        item.idUserName = this.service.user.id;
+        item.idUser = this.service.user.id;
         firstVotesNew.push(item);
       }
     }
-    this.service.givetVote(firstVotesNew).subscribe(data => {
-      if (data) {
-        this.hubService.sendMessage(new Message());
-      }
+    this.service.addVoteOne(firstVotesNew).subscribe(data => {
     });
   }
 

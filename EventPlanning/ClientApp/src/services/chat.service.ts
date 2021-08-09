@@ -19,11 +19,14 @@ export class ChatService {
   sendMessage(message: Message) {
     this._hubConnection.invoke('NewMessage', message);
   }
+  startTimer(message: Message) {
+    this._hubConnection.send('StartTimer', message);
+  }
 
   private createConnection() {
     console.log('https://' + document.location.host + '/MessageHub');
     this._hubConnection = new HubConnectionBuilder()
-      .withUrl('http://' + document.location.host + '/MessageHub')
+      .withUrl('https://' + document.location.host + '/MessageHub')
       .build();
     console.log(window.location.href);
   }

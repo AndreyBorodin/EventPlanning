@@ -1,5 +1,7 @@
-<span style="text-align: center">Новое голосование</span>
-<div style="width: 100%; background: #ededed; text-align: center">
+<ng-container *ngIf = "listParty != ''">
+  <span style="text-align: center">Список участников: {{listParty}}</span><br>
+</ng-container><div style="width: 100%; background: #ededed; text-align: center">
+  <span style="text-align: center">Новое голосование</span>
   <div class="row">
   <div class="col-2">
     <label>Длительность первой фазы (в минутах)</label>

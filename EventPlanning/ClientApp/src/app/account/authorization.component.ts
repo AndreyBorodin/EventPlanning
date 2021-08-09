@@ -22,7 +22,7 @@ export class AuthorizationComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.service.user;
   }
-  onEnter() {
+  enter() {
     this.service.getAccount(this.user).subscribe(data => {
       if (data != null) {
         this.service.user = data;
@@ -34,7 +34,7 @@ export class AuthorizationComponent implements OnInit {
       }
     });
   }
-  onReg() {
+  onRegistration() {
     this.onLogin.emit(0);
   }
 }

@@ -22,7 +22,7 @@ export class RegistrationComponent implements OnInit {
   ngOnInit(): void {
     this.user = new User();
   }
-  onRegistr() {
+  registration() {
     if(this.user.login != '' && this.user.password != '' && this.user.userName != '') {
       this.service.addUser(this.user).subscribe(data => {
         if (data != null) {
@@ -33,7 +33,7 @@ export class RegistrationComponent implements OnInit {
       });
     }
   }
-  onAutor() {
+  onAuthorization() {
     this.onLogin.emit(1);
   }
 

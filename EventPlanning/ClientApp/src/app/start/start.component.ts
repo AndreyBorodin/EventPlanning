@@ -5,15 +5,20 @@ import {Message} from '../../models/model.dto';
 import {VoteOneComponent} from '../voteOne/voteOne.component';
 import {VoteTwoComponent} from '../voteTwo/voteTwo.component';
 import {WaitTwoComponent} from '../waitTwo/waitTwo.component';
+import {WaitOneComponent} from '../waitOne/waitOne.component';
 
 @Component({
   selector: 'app-start',
   templateUrl: './start.component.html'
 })
 export class StartComponent implements OnInit {
-  faza: number;
+  phase: number;
   @ViewChild(VoteOneComponent)
   voteOneComponent: VoteOneComponent;
+  @ViewChild(VoteTwoComponent)
+  voteTwoComponent: VoteOneComponent;
+  @ViewChild(WaitOneComponent)
+  waitOneComponent: WaitOneComponent;
   @ViewChild(WaitTwoComponent)
   waitTwoComponent: WaitTwoComponent;
   constructor(
@@ -25,7 +30,7 @@ export class StartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.faza = 1;
+    this.phase  = 1;
   }
 
   private subscribeToEvents(): void {
@@ -33,19 +38,49 @@ export class StartComponent implements OnInit {
     this.hubService.messageReceived.subscribe((message: Message) => {
       this._ngZone.run(() => {
         console.log('Сработало обновление');
-        this.getFaza();
+        if(message.type == 'messege'){
+          this.getPhase();
+        }
+        if(message.type == 'timerOne'){
+          let minutes = Math.trunc(message.currently / 60);
+          let seconds = message.currently  - minutes * 60;
+          if(this.phase  == 3 && this.voteOneComponent != null && this.voteOneComponent != undefined) {
+            this.voteOneComponent.minutes = minutes;
+            this.voteOneComponent.seconds = seconds;
+          }
+          if(this.phase  == 4 && this.waitOneComponent != null && this.waitOneComponent != undefined) {
+            this.waitOneComponent.minutes = minutes;
+            this.waitOneComponent.seconds = seconds;
+          }
+        }
+        if(message.type == 'timerTwo'){
+          let minutes = Math.trunc(message.currently / 60);
+          let seconds = message.currently  - minutes * 60;
+          if(this.phase  == 5 && this.voteTwoComponent != null && this.voteTwoComponent != undefined) {
+            this.voteTwoComponent.minutes = minutes;
+            this.voteTwoComponent.seconds = seconds;
+          }
+          if(this.phase  == 6 && this.waitTwoComponent != null && this.waitTwoComponent != undefined) {
+            this.waitTwoComponent.minutes = minutes;
+            this.waitTwoComponent.seconds = seconds;
+          }
+        }
       });
     });
   }
 
-  getFaza() {
+  getPhase() {
     if(this.service.user.id != null || this.service.user.id != undefined) {
-      this.service.getFaza(this.service.user).subscribe(data => {
-        this.faza = data;
-        if(this.faza == 3){
-            this.voteOneComponent.getFirstVote();
+      this.service.getPhase(this.service.user).subscribe(data => {
+        this.phase  = data;
+        if(this.phase  == 3){
+          this.voteOneComponent.getFirstVote();
+          this.voteOneComponent.getCountVoted();
         }
-        if(this.faza == 6){
+        if(this.phase  == 4){
+          this.waitOneComponent.getCountVoted();
+        }
+        if(this.phase  == 6){
           this.waitTwoComponent.getListParty();
         }
       });
@@ -53,42 +88,10 @@ export class StartComponent implements OnInit {
   }
 
   setLogin(event){
-    this.faza = event;
-    if(this.faza == 2){
-      this.getFaza();
+    this.phase = event;
+    if(this.phase == 2){
+      this.getPhase();
     }
-  }
-
-  onStartFazaOne(event) {
-    this.hubService.sendMessage(new Message());
-    this.doTimer(event);
-  }
-  async doTimer(time: number) {
-    await this.delay(time * 60000 + 5);
-    this.service.setFaza5().subscribe(data => {
-      if (data) {
-        this.hubService.sendMessage(new Message());
-        this.getTimeTwo();
-      }
-    });
-  }
-  async doTimer2(time: number) {
-    await this.delay(time * 60000 + 5);
-    this.service.setFaza2().subscribe(data => {
-      if (data) {
-        this.hubService.sendMessage(new Message());
-      }
-    });
-  }
-  delay(delay: number) {
-    return new Promise(r => {
-      setTimeout(r, delay);
-    });
-  }
-  getTimeTwo(){
-    this.service.getTimeTwo().subscribe(data => {
-      this.doTimer2(data);
-    });
   }
 }
 

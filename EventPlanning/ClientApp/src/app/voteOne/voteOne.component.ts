@@ -1,7 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {SharedService} from '../../services/shared.service';
 import {ChatService} from '../../services/chat.service';
-import {FirstVote, Message} from '../../models/model.dto';
+import {FirstVote} from '../../models/model.dto';
 
 @Component({
   selector: 'app-vote-one',

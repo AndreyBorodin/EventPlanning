@@ -10,8 +10,8 @@ import {EventPlan, Message} from '../../models/model.dto';
 })
 export class CreateVoteComponent implements OnInit {
   eventPlans: EventPlan[];
-  timeFazaOne: number;
-  timeFazaTwo: number;
+  timePhaseOne: number;
+  timePhaseTwo: number;
   listParty: string = '';
   constructor(
     private hubService: ChatService,
@@ -22,8 +22,8 @@ export class CreateVoteComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventPlans = [];
-    this.timeFazaOne = 5;
-    this.timeFazaTwo = 5;
+    this.timePhaseOne = 5;
+    this.timePhaseTwo = 5;
     this.getListParty();
   }
   getListParty(){
@@ -39,8 +39,8 @@ export class CreateVoteComponent implements OnInit {
 
   startVote() {
       let messege = new Message();
-      messege.timerOne = this.timeFazaOne * 60;
-      messege.timerTwo = this.timeFazaTwo * 60;
+      messege.timerOne = this.timePhaseOne * 60;
+      messege.timerTwo = this.timePhaseTwo * 60;
       this.service.startVote(this.eventPlans).subscribe(data => {
         if (data) {
           this.hubService.startTimer(messege);

@@ -33,7 +33,7 @@ namespace EventPlanning.Controllers
         }
         [HttpPost]
         [Route("getPhase")]
-        public JsonResult GetFaza(User item)
+        public JsonResult GetPhase(User item)
         {
             int phase = 2;
             if (ResultsInfo.phase == 3)

@@ -16,7 +16,7 @@ export class StartComponent implements OnInit {
   @ViewChild(VoteOneComponent)
   voteOneComponent: VoteOneComponent;
   @ViewChild(VoteTwoComponent)
-  voteTwoComponent: VoteOneComponent;
+  voteTwoComponent: VoteTwoComponent;
   @ViewChild(WaitOneComponent)
   waitOneComponent: WaitOneComponent;
   @ViewChild(WaitTwoComponent)
@@ -38,6 +38,7 @@ export class StartComponent implements OnInit {
     this.hubService.messageReceived.subscribe((message: Message) => {
       this._ngZone.run(() => {
         console.log('Сработало обновление');
+        console.log(message);
         if(message.type == 'messege'){
           this.getPhase();
         }
@@ -54,15 +55,19 @@ export class StartComponent implements OnInit {
           }
         }
         if(message.type == 'timerTwo'){
+          console.log('Ну мы тут');
           let minutes = Math.trunc(message.currently / 60);
           let seconds = message.currently  - minutes * 60;
+          console.log('Ну мы тут2');
           if(this.phase  == 5 && this.voteTwoComponent != null && this.voteTwoComponent != undefined) {
             this.voteTwoComponent.minutes = minutes;
             this.voteTwoComponent.seconds = seconds;
+            console.log(message);
           }
           if(this.phase  == 6 && this.waitTwoComponent != null && this.waitTwoComponent != undefined) {
             this.waitTwoComponent.minutes = minutes;
             this.waitTwoComponent.seconds = seconds;
+            console.log(message);
           }
         }
       });

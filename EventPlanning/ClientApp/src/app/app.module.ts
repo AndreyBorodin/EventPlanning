@@ -15,6 +15,7 @@ import {VoteOneComponent} from './voteOne/voteOne.component';
 import {WaitOneComponent} from './waitOne/waitOne.component';
 import {VoteTwoComponent} from './voteTwo/voteTwo.component';
 import {WaitTwoComponent} from './waitTwo/waitTwo.component';
+import {TimerService} from '../services/timerhum.service';
 
 
 @NgModule({
@@ -35,7 +36,7 @@ import {WaitTwoComponent} from './waitTwo/waitTwo.component';
     HttpClientModule,
     FormsModule,
   ],
-  providers: [ChatService, SharedService],
+  providers: [ChatService, SharedService, TimerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

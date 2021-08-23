@@ -2,6 +2,7 @@ import {Component, EventEmitter, NgZone, OnInit, Output} from '@angular/core';
 import {ChatService} from '../../services/chat.service';
 import {SharedService} from '../../services/shared.service';
 import {EventPlan, Message} from '../../models/model.dto';
+import {TimerService} from '../../services/timerhum.service';
 
 
 @Component({
@@ -15,6 +16,7 @@ export class CreateVoteComponent implements OnInit {
   listParty: string = '';
   constructor(
     private hubService: ChatService,
+    private timerService: TimerService,
     private service: SharedService,
     private _ngZone: NgZone
   ) {
@@ -43,7 +45,8 @@ export class CreateVoteComponent implements OnInit {
       messege.timerTwo = this.timePhaseTwo * 60;
       this.service.startVote(this.eventPlans).subscribe(data => {
         if (data) {
-          this.hubService.startTimer(messege);
+          this.hubService.sendMessage(messege);
+          this.timerService.startTimer(messege);
         }
       });
   }

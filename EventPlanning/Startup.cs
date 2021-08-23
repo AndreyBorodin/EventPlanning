@@ -59,6 +59,7 @@ namespace EventPlanning
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapHub<MessageHub>("/MessageHub");
+                endpoints.MapHub<StartTimerHub>("/StartTimerHub");
             });
 
             app.UseSpa(spa =>

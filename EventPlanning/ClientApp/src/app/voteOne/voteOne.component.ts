@@ -1,7 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {SharedService} from '../../services/shared.service';
 import {ChatService} from '../../services/chat.service';
-import {FirstVote} from '../../models/model.dto';
+import {FirstVote, Message} from '../../models/model.dto';
 
 @Component({
   selector: 'app-vote-one',
@@ -44,6 +44,7 @@ export class VoteOneComponent implements OnInit {
       }
     }
     this.service.addVoteOne(firstVotesNew).subscribe(data => {
+      this.hubService.sendMessage(new Message());
     });
   }
 

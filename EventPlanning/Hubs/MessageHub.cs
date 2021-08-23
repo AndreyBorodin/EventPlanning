@@ -18,12 +18,15 @@ namespace EventPlanning.Hubs
             msg.type = "messege";
             await Clients.All.SendAsync("MessageReceived", msg);
         }
+
+    }
+    public class StartTimerHub : Hub
+    {
         public async Task StartTimer(Message msg)
         {
             msg.type = "messege";
             await Clients.All.SendAsync("MessageReceived", msg);
             int timerOne = msg.timerOne;
-            int countOne = ResultsInfo.firstVote.Count();
             for (int i = 0; i <= timerOne; i++)
             {
                 Thread.Sleep(1000);
@@ -31,29 +34,13 @@ namespace EventPlanning.Hubs
                 msg.currently = msg.timerOne - i;
                 if (msg.currently == 0)
                 {
-                    ResultsInfo.phase = 5;
-                    var countP = 0;
-                    foreach (var item in ResultsInfo.eventPlans)
-                    {
-                        var countNew = ResultsInfo.firstVote.Where(x => x.idEventsPlan == item.id).Count();
-                        if (countNew > countP)
-                        {
-                            countP = countNew;
-                            ResultsInfo.leaderPlan = item;
-                        }
-                    }
+                    ResultsInfo.EndVotingOne();
+                    
                     msg.type = "messege";
                 }
                 await Clients.All.SendAsync("MessageReceived", msg);
-                if(countOne < ResultsInfo.firstVote.Count())
-                {
-                    countOne = ResultsInfo.firstVote.Count();
-                    msg.type = "messege";
-                    await Clients.All.SendAsync("MessageReceived", msg);
-                }
             }
             int timerTwo = msg.timerTwo;
-            int countTwo = ResultsInfo.secondVote.Count();
             for (int i = 0; i <= timerTwo; i++)
             {
                 Thread.Sleep(1000);
@@ -61,17 +48,10 @@ namespace EventPlanning.Hubs
                 msg.currently = msg.timerTwo - i;
                 if (msg.currently == 0)
                 {
-                    ResultsInfo.phase = 2;
-                    ResultsInfo.eventPlans = new List<EventPlan>();
+                    ResultsInfo.EndVotingTwo();
                     msg.type = "messege";
                 }
                 await Clients.All.SendAsync("MessageReceived", msg);
-                if (countTwo < ResultsInfo.secondVote.Count())
-                {
-                    countTwo = ResultsInfo.secondVote.Count();
-                    msg.type = "messege";
-                    await Clients.All.SendAsync("MessageReceived", msg);
-                }
             }
         }
     }

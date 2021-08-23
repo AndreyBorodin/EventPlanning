@@ -1,7 +1,7 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {SharedService} from '../../services/shared.service';
 import {ChatService} from '../../services/chat.service';
-import {EventPlan, SecondVote} from '../../models/model.dto';
+import {EventPlan, Message, SecondVote} from '../../models/model.dto';
 
 @Component({
   selector: 'app-vote-two',
@@ -40,6 +40,7 @@ export class VoteTwoComponent implements OnInit {
     secondVote.idUser = this.service.user.id;
     secondVote.consent = true;
     this.service.addVoteTwo(secondVote).subscribe(data => {
+      this.hubService.sendMessage(new Message());
     });
   }
 
@@ -48,6 +49,7 @@ export class VoteTwoComponent implements OnInit {
     secondVote.idUser = this.service.user.id;
     secondVote.consent = false;
     this.service.addVoteTwo(secondVote).subscribe(data => {
+      this.hubService.sendMessage(new Message());
     });
   }
 }

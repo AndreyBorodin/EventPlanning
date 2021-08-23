@@ -54,5 +54,24 @@ namespace EventPlanning.Models
         public static List<SecondVote> secondVote = new List<SecondVote>();
         public static EventPlan leaderPlan = new EventPlan();
         public static int phase = 2;
+        public static void EndVotingOne()
+        {
+            ResultsInfo.phase = 5;
+            var countP = 0;
+            foreach (var item in ResultsInfo.eventPlans)
+            {
+                var countNew = ResultsInfo.firstVote.Where(x => x.idEventsPlan == item.id).Count();
+                if (countNew > countP)
+                {
+                    countP = countNew;
+                    ResultsInfo.leaderPlan = item;
+                }
+            }
+        }
+        public static void EndVotingTwo()
+        {
+            ResultsInfo.phase = 2;
+            ResultsInfo.eventPlans = new List<EventPlan>();
+        }
     }
 }

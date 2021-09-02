@@ -35,13 +35,6 @@ img {
   width: 40%;
 }
 
-.srch_bar {
-  display: inline-block;
-  text-align: right;
-  width: 60%;
-  padding:
-}
-
 .headind_srch {
   padding: 10px 29px 10px 20px;
   overflow: hidden;
@@ -124,7 +117,7 @@ img {
 
 .incoming_msg_img {
   display: inline-block;
- 
+
 }
 
 .received_msg {

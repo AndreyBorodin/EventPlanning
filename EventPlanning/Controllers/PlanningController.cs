@@ -16,20 +16,20 @@ namespace EventPlanning.Controllers
 
         [HttpPost]
         [Route("login")]
-        public JsonResult Login(User item)
+        public JsonResult Login(User user)
         {
-            User Item = ResultsInfo.users.Where(x => x.password == item.password && x.login == item.login).FirstOrDefault();
+            User userBD = ResultsInfo.users.Where(x => x.password == user.password && x.login == user.login).FirstOrDefault();
 
-            return new JsonResult(Item);
+            return new JsonResult(userBD);
         }
         [HttpPost]
         [Route("addUser")]
-        public JsonResult AddUser(User item)
+        public JsonResult AddUser(User user)
         {
-            item.id = Guid.NewGuid().ToString();
-            ResultsInfo.users.Add(item);
+            user.id = Guid.NewGuid().ToString();
+            ResultsInfo.users.Add(user);
 
-            return new JsonResult(item);
+            return new JsonResult(user);
         }
         [HttpPost]
         [Route("getPhase")]
@@ -41,7 +41,7 @@ namespace EventPlanning.Controllers
                 phase = 3;
                 foreach (var vote in ResultsInfo.firstVote)
                 {
-                    if (vote.idUser == item.id)
+                    if (vote.userId == item.id)
                     {
                         phase = 4;
                     }
@@ -52,7 +52,7 @@ namespace EventPlanning.Controllers
                 phase = 5;
                 foreach (var vote in ResultsInfo.secondVote)
                 {
-                    if (vote.idUser == item.id)
+                    if (vote.userId == item.id)
                     {
                         phase = 6;
                     }
@@ -74,7 +74,6 @@ namespace EventPlanning.Controllers
                 ResultsInfo.eventPlans.Add(item);
             }
             ResultsInfo.phase = 3;
-
             return new JsonResult(true);
         }
         [HttpGet]
@@ -85,7 +84,7 @@ namespace EventPlanning.Controllers
             foreach (var item in ResultsInfo.eventPlans)
             {
                 FirstVoteDTO firstVote = new FirstVoteDTO();
-                firstVote.idEventsPlan = item.id;
+                firstVote.eventPlanId = item.id;
                 firstVote.name = item.name;
                 firstVotes.Add(firstVote);
             }
@@ -98,20 +97,20 @@ namespace EventPlanning.Controllers
             foreach (var item in items)
             {
 
-                if (item.idEventsPlan == null)
+                if (item.eventPlanId == null)
                 {
                     EventPlan planNew = new EventPlan();
                     planNew.id = Guid.NewGuid().ToString();
                     planNew.name = item.name;
                     ResultsInfo.eventPlans.Add(planNew);
-                    item.idEventsPlan = planNew.id;
+                    item.eventPlanId = planNew.id;
                 }
                 if (item.consent)
                 {
                     FirstVote firstVote = new FirstVote();
                     firstVote.id = Guid.NewGuid().ToString();
-                    firstVote.idUser = item.idUser;
-                    firstVote.idEventsPlan = item.idEventsPlan;
+                    firstVote.userId = item.userId;
+                    firstVote.eventPlanId = item.eventPlanId;
                     ResultsInfo.firstVote.Add(firstVote);
                 }
             }
@@ -138,9 +137,9 @@ namespace EventPlanning.Controllers
             var listParty = "";
             foreach (var item in ResultsInfo.firstVote)
             {
-                if (item.idEventsPlan == ResultsInfo.leaderPlan.id)
+                if (item.eventPlanId == ResultsInfo.leaderPlan.id)
                 {
-                    listParty += ResultsInfo.users.Where(x => x.id == item.idUser).FirstOrDefault().userName + "; ";
+                    listParty += ResultsInfo.users.Where(x => x.id == item.userId).FirstOrDefault().userName + "; ";
                 }
                 
             }
@@ -155,7 +154,7 @@ namespace EventPlanning.Controllers
             {
                 if (item.consent)
                 {
-                    listParty += ResultsInfo.users.Where(x => x.id == item.idUser).FirstOrDefault().userName + "; ";
+                    listParty += ResultsInfo.users.Where(x => x.id == item.userId).FirstOrDefault().userName + "; ";
                 }
             }
             return new JsonResult(listParty);
@@ -167,7 +166,7 @@ namespace EventPlanning.Controllers
             int countVoted = 0;
             foreach (var item in ResultsInfo.users)
             {
-                var countV = ResultsInfo.firstVote.Where(x => x.idUser == item.id).Count();
+                var countV = ResultsInfo.firstVote.Where(x => x.userId == item.id).Count();
                 if(countV > 0) { countVoted++; }
             }
             return new JsonResult(countVoted);

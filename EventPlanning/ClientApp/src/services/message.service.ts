@@ -3,7 +3,7 @@ import {HubConnection, HubConnectionBuilder} from '@aspnet/signalr';
 import {Message} from '../models/model.dto';
 
 @Injectable()
-export class ChatService {
+export class MessageService {
   messageReceived = new EventEmitter<Message>();
   connectionEstablished = new EventEmitter<Boolean>();
 

@@ -15,7 +15,7 @@ namespace EventPlanning.Hubs
     {
         public async Task NewMessage(Message msg)
         {
-            msg.type = "messege";
+            msg.type = "message";
             await Clients.All.SendAsync("MessageReceived", msg);
         }
 
@@ -24,7 +24,7 @@ namespace EventPlanning.Hubs
     {
         public async Task StartTimer(Message msg)
         {
-            msg.type = "messege";
+            msg.type = "message";
             await Clients.All.SendAsync("MessageReceived", msg);
             int timerOne = msg.timerOne;
             for (int i = 0; i <= timerOne; i++)
@@ -36,7 +36,7 @@ namespace EventPlanning.Hubs
                 {
                     ResultsInfo.EndVotingOne();
                     
-                    msg.type = "messege";
+                    msg.type = "message";
                 }
                 await Clients.All.SendAsync("MessageReceived", msg);
             }
@@ -49,7 +49,7 @@ namespace EventPlanning.Hubs
                 if (msg.currently == 0)
                 {
                     ResultsInfo.EndVotingTwo();
-                    msg.type = "messege";
+                    msg.type = "message";
                 }
                 await Clients.All.SendAsync("MessageReceived", msg);
             }

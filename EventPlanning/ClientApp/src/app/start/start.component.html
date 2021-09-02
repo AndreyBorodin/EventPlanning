@@ -1,8 +1,8 @@
 <ng-container *ngIf="phase  == 0">
-  <app-registration (onLogin)="setLogin($event)"></app-registration>
+  <app-registration (onAuthorization)="setAuthorization()"></app-registration>
 </ng-container>
 <ng-container *ngIf="phase  == 1">
-  <app-authorization (onLogin)="setLogin($event)"></app-authorization>
+  <app-authorization (onRegistration)="setRegisrration()" (onEntry)="setEntry()"></app-authorization>
 </ng-container>
 <ng-container *ngIf="phase  == 2">
   <app-create-vote></app-create-vote>

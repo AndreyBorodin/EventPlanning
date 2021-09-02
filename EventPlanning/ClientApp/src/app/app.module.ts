@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ChatService } from '../services/chat.service';
+import { MessageService } from '../services/message.service';
 import {StartComponent} from './start/start.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
@@ -36,7 +36,7 @@ import {TimerService} from '../services/timerhum.service';
     HttpClientModule,
     FormsModule,
   ],
-  providers: [ChatService, SharedService, TimerService],
+  providers: [MessageService, SharedService, TimerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

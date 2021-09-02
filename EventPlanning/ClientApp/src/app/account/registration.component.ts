@@ -1,5 +1,4 @@
 import {Component, NgZone, OnInit, Output, EventEmitter} from '@angular/core';
-import {ChatService} from '../../services/chat.service';
 import {SharedService} from '../../services/shared.service';
 import {User} from '../../models/model.dto';
 
@@ -10,11 +9,10 @@ import {User} from '../../models/model.dto';
 export class RegistrationComponent implements OnInit {
   user: User;
   @Output()
-  onLogin = new EventEmitter();
+  onAuthorization = new EventEmitter();
 
   constructor(
-    private hubService: ChatService,
-    private service: SharedService,
+    private sharedService: SharedService,
     private _ngZone: NgZone
   ) {
   }
@@ -24,17 +22,17 @@ export class RegistrationComponent implements OnInit {
   }
   registration() {
     if(this.user.login != '' && this.user.password != '' && this.user.userName != '') {
-      this.service.addUser(this.user).subscribe(data => {
+      this.sharedService.addUser(this.user).subscribe(data => {
         if (data != null) {
-          this.service.user.login = this.user.login;
-          this.service.user.password = this.user.password;
-          this.onLogin.emit(1);
+          this.sharedService.user.login = this.user.login;
+          this.sharedService.user.password = this.user.password;
+          this.onAuthorization.emit();
         }
       });
     }
   }
-  onAuthorization() {
-    this.onLogin.emit(1);
+  authorization() {
+    this.onAuthorization.emit();
   }
 
 }

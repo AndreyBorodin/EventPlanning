@@ -1,6 +1,6 @@
 import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
 import {SharedService} from '../../services/shared.service';
-import {ChatService} from '../../services/chat.service';
+import {MessageService} from '../../services/message.service';
 import {Message} from '../../models/model.dto';
 import {VoteOneComponent} from '../voteOne/voteOne.component';
 import {VoteTwoComponent} from '../voteTwo/voteTwo.component';
@@ -23,8 +23,8 @@ export class StartComponent implements OnInit {
   @ViewChild(WaitTwoComponent)
   waitTwoComponent: WaitTwoComponent;
   constructor(
-    private hubService: ChatService,
-    private service: SharedService,
+    private messageService: MessageService,
+    private sharedService: SharedService,
     private timerService: TimerService,
     private _ngZone: NgZone
   ) {
@@ -38,7 +38,7 @@ export class StartComponent implements OnInit {
 
   private subscribeToEvents(): void {
     console.log('хаб сработал');
-    this.hubService.messageReceived.subscribe((message: Message) => {
+    this.messageService.messageReceived.subscribe((message: Message) => {
       this._ngZone.run(() => {
         console.log('Сработало обновление');
         console.log(message);
@@ -51,7 +51,7 @@ export class StartComponent implements OnInit {
     this.timerService.messageReceived.subscribe((message: Message) => {
       this._ngZone.run(() => {
         console.log('Сработало обновление');
-        if(message.type == 'messege'){
+        if(message.type == 'message'){
           this.getPhase();
         }
         else if(message.type == 'timerOne'){
@@ -83,8 +83,8 @@ export class StartComponent implements OnInit {
   }
 
   getPhase() {
-    if(this.service.user.id != null || this.service.user.id != undefined) {
-      this.service.getPhase(this.service.user).subscribe(data => {
+    if(this.sharedService.user.id != null || this.sharedService.user.id != undefined) {
+      this.sharedService.getPhase(this.sharedService.user).subscribe(data => {
         this.phase  = data;
         if(this.phase  == 3){
           this.voteOneComponent.getFirstVote();
@@ -100,11 +100,14 @@ export class StartComponent implements OnInit {
     }
   }
 
-  setLogin(event){
-    this.phase = event;
-    if(this.phase == 2){
-      this.getPhase();
-    }
+  setEntry(){
+    this.getPhase();
+  }
+  setRegisrration(){
+    this.phase = 0;
+  }
+  setAuthorization(){
+    this.phase = 1;
   }
 }
 

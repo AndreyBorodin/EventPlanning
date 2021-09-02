@@ -11,7 +11,7 @@ export class WaitOneComponent implements OnInit {
   countVoted: number = 0;
 
   constructor(
-    private service: SharedService
+    private sharedService: SharedService
   ) {
   }
 
@@ -19,7 +19,7 @@ export class WaitOneComponent implements OnInit {
     this.getCountVoted();
   }
   getCountVoted(){
-    this.service.getCountVoted().subscribe(data => {
+    this.sharedService.getCountVoted().subscribe(data => {
       this.countVoted = data;
     });
   }

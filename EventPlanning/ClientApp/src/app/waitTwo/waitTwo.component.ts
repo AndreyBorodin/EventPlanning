@@ -1,7 +1,6 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {SharedService} from '../../services/shared.service';
-import {ChatService} from '../../services/chat.service';
-import {EventPlan, FirstVote, Message} from '../../models/model.dto';
+import {EventPlan} from '../../models/model.dto';
 
 @Component({
   selector: 'app-wait-two',
@@ -14,8 +13,7 @@ export class WaitTwoComponent implements OnInit {
   listParty: string;
 
   constructor(
-    private hubService: ChatService,
-    private service: SharedService,
+    private sharedService: SharedService,
     private _ngZone: NgZone
   ) {
   }
@@ -25,12 +23,12 @@ export class WaitTwoComponent implements OnInit {
     this.getListParty();
   }
   getPlanLeader(){
-    this.service.getPlanLeader().subscribe(data => {
+    this.sharedService.getPlanLeader().subscribe(data => {
       this.planLeader = data;
     });
   }
   getListParty(){
-    this.service.getListParty2().subscribe(data => {
+    this.sharedService.getListParty2().subscribe(data => {
       this.listParty = data;
     });
   }

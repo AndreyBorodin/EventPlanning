@@ -1,6 +1,6 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {SharedService} from '../../services/shared.service';
-import {ChatService} from '../../services/chat.service';
+import {MessageService} from '../../services/message.service';
 import {FirstVote, Message} from '../../models/model.dto';
 
 @Component({
@@ -14,8 +14,8 @@ export class VoteOneComponent implements OnInit {
   firstVotes: FirstVote[];
 
   constructor(
-    private hubService: ChatService,
-    private service: SharedService,
+    private messageService: MessageService,
+    private sharedService: SharedService,
     private _ngZone: NgZone
   ) {
   }
@@ -25,12 +25,12 @@ export class VoteOneComponent implements OnInit {
     this.getCountVoted();
   }
   getFirstVote(){
-    this.service.getFirstVote().subscribe(data => {
+    this.sharedService.getFirstVote().subscribe(data => {
       this.firstVotes = data;
     });
   }
   getCountVoted(){
-    this.service.getCountVoted().subscribe(data => {
+    this.sharedService.getCountVoted().subscribe(data => {
       this.countVoted = data;
     });
   }
@@ -38,13 +38,13 @@ export class VoteOneComponent implements OnInit {
   addVoice() {
     let firstVotesNew: FirstVote[] = [];
     for (let item of this.firstVotes ){
-      if(item.consent || item.idEventsPlan == null || item.idEventsPlan == undefined){
-        item.idUser = this.service.user.id;
+      if(item.consent || item.eventPlanId == null || item.eventPlanId == undefined){
+        item.userId = this.sharedService.user.id;
         firstVotesNew.push(item);
       }
     }
-    this.service.addVoteOne(firstVotesNew).subscribe(data => {
-      this.hubService.sendMessage(new Message());
+    this.sharedService.addVoteOne(firstVotesNew).subscribe(data => {
+      this.messageService.sendMessage(new Message());
     });
   }
 

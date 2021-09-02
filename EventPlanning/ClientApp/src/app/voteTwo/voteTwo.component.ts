@@ -1,6 +1,6 @@
 import {Component, NgZone, OnInit} from '@angular/core';
 import {SharedService} from '../../services/shared.service';
-import {ChatService} from '../../services/chat.service';
+import {MessageService} from '../../services/message.service';
 import {EventPlan, Message, SecondVote} from '../../models/model.dto';
 
 @Component({
@@ -14,8 +14,8 @@ export class VoteTwoComponent implements OnInit {
   listParty: string;
 
   constructor(
-    private hubService: ChatService,
-    private service: SharedService,
+    private messageService: MessageService,
+    private sharedService: SharedService,
     private _ngZone: NgZone
   ) {
   }
@@ -25,31 +25,31 @@ export class VoteTwoComponent implements OnInit {
     this.getListParty();
   }
   getPlanLeader(){
-    this.service.getPlanLeader().subscribe(data => {
+    this.sharedService.getPlanLeader().subscribe(data => {
       this.planLeader = data;
     });
   }
   getListParty(){
-    this.service.getListParty().subscribe(data => {
+    this.sharedService.getListParty().subscribe(data => {
       this.listParty = data;
     });
   }
 
   yesAnswer() {
     const secondVote: SecondVote = new SecondVote();
-    secondVote.idUser = this.service.user.id;
+    secondVote.userId = this.sharedService.user.id;
     secondVote.consent = true;
-    this.service.addVoteTwo(secondVote).subscribe(data => {
-      this.hubService.sendMessage(new Message());
+    this.sharedService.addVoteTwo(secondVote).subscribe(data => {
+      this.messageService.sendMessage(new Message());
     });
   }
 
   noAnswer() {
     const secondVote: SecondVote = new SecondVote();
-    secondVote.idUser = this.service.user.id;
+    secondVote.userId = this.sharedService.user.id;
     secondVote.consent = false;
-    this.service.addVoteTwo(secondVote).subscribe(data => {
-      this.hubService.sendMessage(new Message());
+    this.sharedService.addVoteTwo(secondVote).subscribe(data => {
+      this.messageService.sendMessage(new Message());
     });
   }
 }

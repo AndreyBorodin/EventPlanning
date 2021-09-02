@@ -26,8 +26,8 @@ export class EventPlan {
 }
 export class FirstVote {
   id: string;
-  idUser: string;
-  idEventsPlan: string;
+  userId: string;
+  eventPlanId: string;
   name: string;
   consent: boolean;
   constructor() {
@@ -37,7 +37,7 @@ export class FirstVote {
 export class SecondVote {
   id: string;
   consent: boolean;
-  idUser: string;
+  userId: string;
 }
 
 

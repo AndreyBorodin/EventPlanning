@@ -1,5 +1,5 @@
 import {Component, EventEmitter, NgZone, OnInit, Output} from '@angular/core';
-import {ChatService} from '../../services/chat.service';
+import {MessageService} from '../../services/message.service';
 import {SharedService} from '../../services/shared.service';
 import {EventPlan, Message} from '../../models/model.dto';
 import {TimerService} from '../../services/timerhum.service';
@@ -15,9 +15,9 @@ export class CreateVoteComponent implements OnInit {
   timePhaseTwo: number;
   listParty: string = '';
   constructor(
-    private hubService: ChatService,
+    private messageService: MessageService,
     private timerService: TimerService,
-    private service: SharedService,
+    private sharedService: SharedService,
     private _ngZone: NgZone
   ) {
   }
@@ -29,7 +29,7 @@ export class CreateVoteComponent implements OnInit {
     this.getListParty();
   }
   getListParty(){
-    this.service.getListParty2().subscribe(data => {
+    this.sharedService.getListParty2().subscribe(data => {
       this.listParty = data;
     });
   }
@@ -40,13 +40,13 @@ export class CreateVoteComponent implements OnInit {
   }
 
   startVote() {
-      let messege = new Message();
-      messege.timerOne = this.timePhaseOne * 60;
-      messege.timerTwo = this.timePhaseTwo * 60;
-      this.service.startVote(this.eventPlans).subscribe(data => {
+      let message = new Message();
+      message.timerOne = this.timePhaseOne * 60;
+      message.timerTwo = this.timePhaseTwo * 60;
+      this.sharedService.startVote(this.eventPlans).subscribe(data => {
         if (data) {
-          this.hubService.sendMessage(messege);
-          this.timerService.startTimer(messege);
+          this.messageService.sendMessage(message);
+          this.timerService.startTimer(message);
         }
       });
   }

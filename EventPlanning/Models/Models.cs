@@ -28,22 +28,22 @@ namespace EventPlanning.Models
     public class FirstVote 
     {
         public string id { get; set; }
-        public string idUser { get; set; }
-        public string idEventsPlan { get; set; }
+        public string userId { get; set; }
+        public string eventPlanId { get; set; }
         public bool consent { get; set; }
     }
     public class FirstVoteDTO
     {
         public string id { get; set; }
-        public string idUser { get; set; }
-        public string idEventsPlan { get; set; }
+        public string userId { get; set; }
+        public string eventPlanId { get; set; }
         public string name { get; set; }
         public bool consent { get; set; }
     }
     public class SecondVote 
     {
         public string id { get; set; }
-        public string idUser { get; set; }
+        public string userId { get; set; }
         public bool consent { get; set; }
     }
     public static class ResultsInfo
@@ -60,7 +60,7 @@ namespace EventPlanning.Models
             var countP = 0;
             foreach (var item in ResultsInfo.eventPlans)
             {
-                var countNew = ResultsInfo.firstVote.Where(x => x.idEventsPlan == item.id).Count();
+                var countNew = ResultsInfo.firstVote.Where(x => x.eventPlanId == item.id).Count();
                 if (countNew > countP)
                 {
                     countP = countNew;
